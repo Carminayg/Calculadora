@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Gastos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #f8f9fa, #e0e0e0);
+        }
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+        .btn-custom {
+            background-color: #ff6f61;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #e63946;
+        }
+    </style>
+</head>
+<body>
+    <div class="container shadow p-4 bg-white rounded">
+        <h2 class="text-center mb-4">Calculadora de Gastos</h2>
+        <div class="mb-3">
+            <label for="concepto" class="form-label">Concepto</label>
+            <select class="form-select" id="concepto">
+                <option value="Pago de limpieza">Pago de limpieza</option>
+                <option value="Pago de vigilantes">Pago de vigilantes</option>
+                <option value="Pago de servicios">Pago de servicios</option>
+                <option value="Pago de otros">Pago de otros</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="monto" class="form-label">Monto</label>
+            <input type="number" class="form-control" id="monto" placeholder="Ingrese el monto" min="0">
+        </div>
+        <button class="btn btn-custom w-100" onclick="agregarGasto()">Agregar Gasto</button>
+        <h4 class="mt-4">Lista de Gastos</h4>
+        <ul id="lista-gastos" class="list-group"></ul>
+        <h3 class="mt-4 text-end">Total: $<span id="total">0</span></h3>
+    </div>
+
+    <script>
+        let totalGastos = 0;
+        
+        function agregarGasto() {
+            let concepto = document.getElementById("concepto").value;
+            let monto = parseFloat(document.getElementById("monto").value);
+            
+            if (isNaN(monto) || monto <= 0) {
+                alert("Ingrese un monto válido.");
+                return;
+            }
+            
+            let lista = document.getElementById("lista-gastos");
+            let nuevoGasto = document.createElement("li");
+            nuevoGasto.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center", "animate__animated", "animate__fadeInUp");
+            nuevoGasto.innerHTML = `${concepto} <span class='badge bg-primary rounded-pill'>$${monto.toFixed(2)}</span>`;
+            
+            lista.appendChild(nuevoGasto);
+            totalGastos += monto;
+            document.getElementById("total").textContent = totalGastos.toFixed(2);
+            
+            document.getElementById("monto").value = "";
+        }
+    </script>
+</body>
+</html>
